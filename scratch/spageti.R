@@ -5,7 +5,8 @@ library(tidyverse)
 library(lubridate)
 library(ggplot2)
 
-MERGE CONFLiCT
+
+MERGE CONFLICT
 
 # Get data into R using Here::Here function pulling only Fig3 data
 BQ1 <- read.csv(here("data", "QuebradaCuenca1-Bisley.csv")) |> 
