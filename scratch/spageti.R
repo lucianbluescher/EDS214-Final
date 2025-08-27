@@ -1,9 +1,15 @@
+#Spagetti trial and error code for 214 Final project
+# Lucian Scher
+# lucian@ucsb.edu
+
 # Libraries
 library(here)
 library(janitor)
 library(tidyverse)
 library(lubridate)
 library(ggplot2)
+library(zoo)
+library(dplyr)
 
 
 Conflcit test
@@ -25,8 +31,7 @@ PRM <- read.csv(here("data", "RioMameyesPuenteRoto.csv")) |>
   select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
 
 
-# trying full_join combine 4 data frames into 1 for graphing T
-# fig3data should be all data needed for fig 3
+# Using full_join for one data frame for all components of fig 3
 
 BQ12 <- full_join(BQ1, BQ2)
 BQ3PRM <- full_join(BQ3, PRM)
@@ -35,17 +40,32 @@ fig3data <- full_join(BQ12, BQ3PRM)
 
 ymd(fig3data$sample_date)
 
-(fig3data)
+# Creating additional column with rolling means
+
+fig3weeks_avg <- fig3data |> 
+  mutate(avg_k = rollmean(k, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
+  mutate(avg_n03 = rollmean(no3_n, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
+  mutate(avg_mg = rollmean(mg, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
+  mutate(avg_ca = rollmean(ca, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
+  mutate(avg_nh4 = rollmean(nh4_n, k = 9, align = "center", fill = NA, na.rm = TRUE)) 
 
 
-# Lets see if we can make it plot
+# Long version of data with avg to use facet wrap
 
-fig3plot <- ggplot(data = fig3data, aes(x = sample_date, y = sample_id)) +
+fig3data_long <- fig3weeks_avg |>
+  pivot_longer(cols = c(k, no3_n, mg, ca, nh4_n),
+               names_to = "nutrient",
+               values_to = "value") |> 
+  select(-nutrient, -value)
+
+
+# Graphing lines to show each nutrient by year with individual y-axid
+
+fig3plot <- ggplot(data = fig3data_long, 
+                   aes(x = sample_date,
+                   y = value,
+                   group = sample_id,
+                   color = sample_id,)) +
   geom_line() +
-  facet_wrap(~ k + no3_n + mg + ca + nh4_n, scales = "free_y") # different panel for each variable
-
-fig3plot
-
-# Giving up because I realized I need to do the 9wk moving average first because it is doing every single day
-
-
+  facet_wrap(~nutrient, scales = "free_y")
+            
