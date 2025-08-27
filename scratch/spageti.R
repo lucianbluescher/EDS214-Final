@@ -36,7 +36,8 @@ PRM <- read.csv(here("data", "RioMameyesPuenteRoto.csv")) |>
 BQ12 <- full_join(BQ1, BQ2)
 BQ3PRM <- full_join(BQ3, PRM)
 
-fig3data <- full_join(BQ12, BQ3PRM)
+fig3data <- full_join(BQ12, BQ3PRM) |> 
+  filter(year(sample_date) <= "1994") # Change dates to Fig 3 range
 
 ymd(fig3data$sample_date)
 
@@ -50,7 +51,7 @@ fig3weeks_avg <- fig3data |>
   mutate(avg_nh4 = rollmean(nh4_n, k = 9, align = "center", fill = NA, na.rm = TRUE)) 
 
 
-# Long version of data with avg to use facet wrap
+# Long version of data with avg to use facet wrap removing original data
 
 fig3data_long <- fig3weeks_avg |>
   pivot_longer(cols = c(k, no3_n, mg, ca, nh4_n),
@@ -59,7 +60,7 @@ fig3data_long <- fig3weeks_avg |>
   select(-nutrient, -value)
 
 
-# Graphing lines to show each nutrient by year with individual y-axid
+# Graphing lines to show each nutrient by year with individual y-axiss
 
 fig3plot <- ggplot(data = fig3data_long, 
                    aes(x = sample_date,
@@ -69,3 +70,4 @@ fig3plot <- ggplot(data = fig3data_long,
   geom_line() +
   facet_wrap(~nutrient, scales = "free_y")
             
+fig3plot
