@@ -12,6 +12,11 @@ library(zoo)
 library(dplyr)
 
 
+<<<<<<< HEAD
+=======
+
+MERGE CONFLICT
+>>>>>>> 2602c17521476c20ee2d8cb3d9704e373e123dbc
 
 # Get data into R using Here::Here function pulling only Fig3 data
 BQ1 <- read.csv(here("data", "QuebradaCuenca1-Bisley.csv")) |> 
