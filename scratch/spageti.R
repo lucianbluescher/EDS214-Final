@@ -12,7 +12,7 @@ library(zoo)
 library(dplyr)
 
 
-Conflcit test
+
 # Get data into R using Here::Here function pulling only Fig3 data
 BQ1 <- read.csv(here("data", "QuebradaCuenca1-Bisley.csv")) |> 
   clean_names() |> 
@@ -43,12 +43,7 @@ ymd(fig3data$sample_date)
 
 # Creating additional column with rolling means
 
-fig3weeks_avg <- fig3data |> 
-  mutate(avg_k = rollmean(k, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
-  mutate(avg_n03 = rollmean(no3_n, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
-  mutate(avg_mg = rollmean(mg, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
-  mutate(avg_ca = rollmean(ca, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
-  mutate(avg_nh4 = rollmean(nh4_n, k = 9, align = "center", fill = NA, na.rm = TRUE)) 
+
 
 
 # Long version of data with avg to use facet wrap removing original data
@@ -71,3 +66,12 @@ fig3plot <- ggplot(data = fig3data_long,
   facet_wrap(~nutrient, scales = "free_y")
             
 fig3plot
+
+
+# Rolling mean doesnt work becuase it goes by row not week
+#fig3weeks_avg <- fig3data |> 
+# mutate(avg_k = rollmean(k, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
+# mutate(avg_n03 = rollmean(no3_n, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
+# mutate(avg_mg = rollmean(mg, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
+# mutate(avg_ca = rollmean(ca, k = 9, align = "center", fill = NA, na.rm = TRUE)) |> 
+# mutate(avg_nh4 = rollmean(nh4_n, k = 9, align = "center", fill = NA, na.rm = TRUE)) 
