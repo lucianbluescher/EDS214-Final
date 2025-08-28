@@ -11,27 +11,20 @@ library(ggplot2)
 library(zoo)
 library(dplyr)
 
-
-<<<<<<< HEAD
-=======
-
-MERGE CONFLICT
->>>>>>> 2602c17521476c20ee2d8cb3d9704e373e123dbc
-
 # Get data into R using Here::Here function pulling only Fig3 data
-BQ1 <- read.csv(here("data", "QuebradaCuenca1-Bisley.csv")) |> 
-  clean_names() |> 
-select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
-
-BQ2 <- read.csv(here("data", "QuebradaCuenca2-Bisley.csv")) |> 
+BQ1 <- read.csv(here("raw_data", "QuebradaCuenca1-Bisley.csv")) |> 
   clean_names() |> 
   select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
 
-BQ3 <- read.csv(here("data", "QuebradaCuenca3-Bisley.csv")) |> 
+BQ2 <- read.csv(here("raw_data", "QuebradaCuenca2-Bisley.csv")) |> 
   clean_names() |> 
   select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
 
-PRM <- read.csv(here("data", "RioMameyesPuenteRoto.csv")) |> 
+BQ3 <- read.csv(here("raw_data", "QuebradaCuenca3-Bisley.csv")) |> 
+  clean_names() |> 
+  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
+
+PRM <- read.csv(here("raw_data", "RioMameyesPuenteRoto.csv")) |> 
   clean_names() |> 
   select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
 
@@ -46,18 +39,40 @@ fig3data <- full_join(BQ12, BQ3PRM) |>
 
 ymd(fig3data$sample_date)
 
-# Creating additional column with rolling means
-
-
-
-
 # Long version of data with avg to use facet wrap removing original data
 
-fig3data_long <- fig3weeks_avg |>
+fig3data_long <- fig3data |>
   pivot_longer(cols = c(k, no3_n, mg, ca, nh4_n),
                names_to = "nutrient",
-               values_to = "value") |> 
-  select(-nutrient, -value)
+               values_to = "value") 
+ # select(-nutrient, -value)
+
+# Write function for finding rolling means
+
+moving_average <- function(focal_date, dates, conc, win_size_wks) {
+  # Which dates are in the window?
+  is_in_window <- (dates > focal_date - (win_size_wks / 2) * 7) &
+    (dates < focal_date + (win_size_wks / 2) * 7)
+  # Find the associated concentrations
+  window_conc <- conc[is_in_window]
+  # Calculate the mean
+  result <- mean(window_conc)
+  
+  return(result)
+}
+
+
+# Call Function
+source("R/rolling_mean.R")
+# Apply the function
+
+fig3data_long$roll_mean <- sapply(
+  fig3data_long$sample_date,
+  moving_average,
+  dates = fig3data_long$sample_date,
+  conc = fig3data_long$value,
+  win_size_wks = 9
+)
 
 
 # Graphing lines to show each nutrient by year with individual y-axiss
