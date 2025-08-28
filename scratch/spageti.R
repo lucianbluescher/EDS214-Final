@@ -65,29 +65,34 @@ moving_average <- function(focal_date, dates, conc, win_size_wks) {
 #fig3data_long_split_id <- split(fig3data_long, fig3data_long$sample_id)
 #View(fig3data_long_split[["ca"]])
 
-# Make new data frames that is just the nutrient, sample_date and sample_id
+# Pivot data to long form
 
-k <- fig3data_long |> 
+fig3data <- fig3data |> pivot_longer(cols = c(k, no3_n, mg, ca, nh4_n),
+             names_to = "nutrient",
+             values_to = "value") 
+
+# Make new data frames that is just the nutrient, sample_date and sample_id
+k <- fig3data |> 
   filter(nutrient == "k") |> 
   select(-nutrient) |> 
   mutate(sample_date = as.Date(sample_date))
 
-no3_n <- fig3data_long |> 
+no3_n <- fig3data |> 
   filter(nutrient == "no3_n")|> 
   select(-nutrient) |>
   mutate(sample_date = as.Date(sample_date))
 
-mg <- fig3data_long |> 
+mg <- fig3data |> 
   filter(nutrient == "mg")|> 
   select(-nutrient) |>
   mutate(sample_date = as.Date(sample_date))
 
-ca <- fig3data_long |> 
+ca <- fig3data |> 
   filter(nutrient == "ca")|> 
   select(-nutrient) |>
   mutate(sample_date = as.Date(sample_date))
 
-nh4_n <- fig3data_long |> 
+nh4_n <- fig3data |> 
   filter(nutrient == "nh4_n")|> 
   select(-nutrient) |>
   mutate(sample_date = as.Date(sample_date))
@@ -185,16 +190,34 @@ rollmean_nh4_n <- nh4_n |>
   )|> 
   select(-value)
 
+
+# I was getting an error because of the duplicate sample_id and sample_date columns so I found a function to make each one from the individual data sets unique to get rid of the error
+
+rollmean_k     <- rollmean_k     |> distinct(sample_id, sample_date, k_rollmean)
+rollmean_no3_n <- rollmean_no3_n |> distinct(sample_id, sample_date, no3_n_rollmean)
+rollmean_mg    <- rollmean_mg    |> distinct(sample_id, sample_date, mg_rollmean)
+rollmean_ca    <- rollmean_ca    |> distinct(sample_id, sample_date, ca_rollmean)
+rollmean_nh4_n <- rollmean_nh4_n |> distinct(sample_id, sample_date, nh4_n_rollmean)
+
 # Regroup data for plotting also making it long for plotting
 
 rollmean_all <- rollmean_k |> 
-  full_join(rollmean_no3_n, by = c("sample_id", "sample_date")) |> 
-  full_join(rollmean_mg,    by = c("sample_id", "sample_date")) |> 
-  full_join(rollmean_ca,    by = c("sample_id", "sample_date")) |> 
-  full_join(rollmean_nh4_n, by = c("sample_id", "sample_date")) |> 
+  full_join(rollmean_no3_n) |> 
+  full_join(rollmean_mg) |> 
+  full_join(rollmean_ca) |> 
+  full_join(rollmean_nh4_n) |> 
   pivot_longer(cols = c(k_rollmean, no3_n_rollmean, mg_rollmean, ca_rollmean, nh4_n_rollmean),
                names_to = "nutrient",
                values_to = "value") 
+
+#rollmean_all <- rollmean_k |> 
+ # full_join(rollmean_no3_n, by = c("sample_id", "sample_date")) |> 
+ # full_join(rollmean_mg,    by = c("sample_id", "sample_date")) |> 
+ # full_join(rollmean_ca,    by = c("sample_id", "sample_date")) |> 
+ # full_join(rollmean_nh4_n, by = c("sample_id", "sample_date")) |> 
+ # pivot_longer(cols = c(k_rollmean, no3_n_rollmean, mg_rollmean, ca_rollmean, nh4_n_rollmean),
+              # names_to = "nutrient",
+               #values_to = "value") 
 
 # Graphing lines to show each nutrient by year with individual y-axis
 
@@ -203,7 +226,7 @@ fig3plot <- ggplot(data = rollmean_all,
                    y = value,
                    group = sample_id,
                    color = sample_id,)) +
-  geom_line() +
+  geom_line(na.rm = TRUE) +
   facet_wrap(~nutrient, scales = "free_y")
             
 fig3plot
