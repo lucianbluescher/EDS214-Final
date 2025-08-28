@@ -2,6 +2,37 @@
 title: "paper.qmd"
 format: html
 ---
+
+```{r}
+# Libraries
+library(here)
+library(janitor)
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+library(zoo)
+library(dplyr)
+```
+
+```{r}
+# Get data into R using Here::Here function pulling only Fig3 data
+BQ1 <- read.csv(here("raw_data", "QuebradaCuenca1-Bisley.csv")) |> 
+  clean_names() |> 
+  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
+
+BQ2 <- read.csv(here("raw_data", "QuebradaCuenca2-Bisley.csv")) |> 
+  clean_names() |> 
+  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
+
+BQ3 <- read.csv(here("raw_data", "QuebradaCuenca3-Bisley.csv")) |> 
+  clean_names() |> 
+  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
+
+PRM <- read.csv(here("raw_data", "RioMameyesPuenteRoto.csv")) |> 
+  clean_names() |> 
+  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
+```
+
 ### Background 
 
 ### Data
