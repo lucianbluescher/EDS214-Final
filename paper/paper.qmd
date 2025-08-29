@@ -11,7 +11,7 @@ output-file: index.html
 
 library(here)
 source(here("R", "rolling_mean.R"))
-invisible(source(here("R", "Init_Envi.R")))
+invisible(source(here("R", "init_envi.R")))
 
 ```
 
@@ -25,7 +25,7 @@ invisible(source(here("R", "Init_Envi.R")))
 
 ### Methods
 
-I originally started using the rollmean function from the zoo package. I thought it was a genius solution so I moved on to graphing which made me realize the function was not using time it was just using rows. It took me a long time to get our class rolling_mean function work in my data set but eventually had to move on as I was worried about time. I found a few weird ways to eliminate errors and warnings which may have been biggest learning moment of this week, just eliminating the error message does not mean the code is running correctly. 
+I originally started using the rollmean function from the zoo package. I thought it was a genius solution so I moved on to graphing which made me realize the function was not using time it was just using rows. It took me a long time to get our class rolling_mean function to work in my data set but eventually had to move on as I was worried about time. Then this morning witha little help from my friends I nailed the issue, thanks friends. I found a weird way to eliminate an error in my regrouping which may have been biggest learning moment of this week, just eliminating the error message does not mean the code is running correctly. Max quickly walked me through to the root of the problem, I eliminated the nutrient column for cleanliness but turns out you still need that column. 
 
 
 ### Results
@@ -35,7 +35,7 @@ I originally started using the rollmean function from the zoo package. I thought
 #| message: FALSE
 fig3plot <- ggplot(data = rollmean_all, 
                    aes(x = sample_date,
-                   y = value,
+                   y = rollmean,
                    group = sample_id,
                    color = sample_id,)) +
   geom_line(na.rm = TRUE) +
