@@ -5,7 +5,8 @@ This repository contains the code and analysis for Lucians final project in EDS 
          Schaefer DouglasA, McDowell WH, Scatena FN, Asbury CE. Effects of hurricane disturbance on stream water concentrations and fluxes in eight tropical forest watersheds of the Luquillo Experimental Forest, Puerto Rico. Journal of Tropical Ecology. 2000;16(2):189-207. 
 <doi:10.1017/S0266467400001358>
          
-You only need to run paper.qmd in the R folder to understand my analysis.        
+You only need to run paper.qmd in the R folder to understand my analysis. 
+Or simply use this link https://lucianbluescher.github.io/EDS214-Final/
 
 ## Contents
 1. R: 
