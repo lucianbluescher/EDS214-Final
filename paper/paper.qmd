@@ -4,35 +4,17 @@ format: html
 output-file: index.html
 ---
 
-```{r}
-# Libraries
+```{r,}
+#| echo: false
+#| message: FALSE
+# Initialize environment
+
 library(here)
-library(janitor)
-library(tidyverse)
-library(lubridate)
-library(ggplot2)
-library(zoo)
-library(dplyr)
+source(here("R", "rolling_mean.R"))
+invisible(source(here("R", "Init_Envi.R")))
+
 ```
 
-```{r}
-# Get data into R using Here::Here function pulling only Fig3 data
-BQ1 <- read_csv(here("raw_data", "QuebradaCuenca1-Bisley.csv")) |> 
-  clean_names() |> 
-  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
-
-BQ2 <- read_csv(here("raw_data", "QuebradaCuenca2-Bisley.csv")) |> 
-  clean_names() |> 
-  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
-
-BQ3 <- read_csv(here("raw_data", "QuebradaCuenca3-Bisley.csv")) |> 
-  clean_names() |> 
-  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
-
-PRM <- read_csv(here("raw_data", "RioMameyesPuenteRoto.csv")) |> 
-  clean_names() |> 
-  select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
-```
 
 ### Background 
 
@@ -41,3 +23,17 @@ PRM <- read_csv(here("raw_data", "RioMameyesPuenteRoto.csv")) |>
 ### Methods
   
 ### Results
+```{r}
+fig3plot <- ggplot(data = rollmean_all, 
+                   aes(x = sample_date,
+                   y = value,
+                   group = sample_id,
+                   color = sample_id,)) +
+  geom_line(na.rm = TRUE) +
+  geom_vline(xintercept = as.Date("1989-09-25"), 
+             color = "black", linetype = "dashed", linewidth = 1) +
+  facet_wrap(~nutrient, scales = "free_y", ncol = 1)
+            
+fig3plot
+```
+

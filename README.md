@@ -12,3 +12,5 @@ This repository contains the code for Lucians final project in EDS 214. This pro
 * scratch: Spaghetti files of trial and error before working product
 * docs: Scripts and cleaned data files used for final Rmd
 * figs: Plots and Figure 3
+
+1) data, (2) analysis script, (3) supporting code, and (4) outputs
