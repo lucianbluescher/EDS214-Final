@@ -28,13 +28,14 @@ DOCUMENT Issue: [Link Text](https://github.com/lucianbluescher/EDS214-Final/issu
 [M] **The analysis produces the expected output**
 
 [NY] **Data import/cleaning is handled in its own script(s)**
+- Fixed by splitting my 0_init_envi.R folder into 0_init_envi.R that initializes script by librarying packages and 1_data_download that cleans the needed data
 
 ## Organize
 
 [M] Raw data is contained in its own folder
 
 [NY] Intermediate outputs are created and saved to a separate folder from raw data
-- Store in either `outputs` or create a sub-folder inside `data`
+- DONE Store in  `outputs` 
 
 [M] **At least one piece of functionality has been refactored into a function in its own file**
 
@@ -43,17 +44,21 @@ DOCUMENT Issue: [Link Text](https://github.com/lucianbluescher/EDS214-Final/issu
 [M] The repo has a README that explains where to find (1) data, (2) analysis script, (3) supporting code, and (4) outputs
 
 [NY] **The README includes a flowchart and text explaining how the analysis works**
+Added flowchart to README
+Added Short explanation of how analysis works
 
 [M] **The code is appropriately commented**
 
 [NY] **Variable and function names are descriptive and follow a consistent naming convention**
 - Inconsitent capitalization and case: `fig3data` vs. `required_packages` vs. `BQ3`
+FIXED
 
 ## Scale
 
 After cloning the repo on Workbench:
 
 [NY] Running the environment initialization script installs all required packages
+Fixed by isolating environment initialization script and labeling as 0
 
 [M] The analysis script runs without errors
 
@@ -68,3 +73,4 @@ After cloning the repo on Workbench:
 [M] The commit history includes at least one merged branch and a resolved merge conflict
 
 [NY] The rendered analysis is accessible via GitHub Pages
+AFFIRMATIVE

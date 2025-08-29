@@ -11,7 +11,8 @@ output-file: index.html
 
 library(here)
 source(here("R", "rolling_mean.R"))
-invisible(source(here("R", "init_envi.R")))
+source(here("0_init_envi.R"))
+rollmean_all <- read.csv(here("outputs","rollmean_all.csv"))
 
 ```
 
@@ -34,7 +35,7 @@ I originally started using the rollmean function from the zoo package. I thought
 #| echo: false
 #| message: FALSE
 fig3plot <- ggplot(data = rollmean_all, 
-                   aes(x = sample_date,
+                   aes(x = as.Date(sample_date),
                    y = rollmean,
                    group = sample_id,
                    color = sample_id,)) +
