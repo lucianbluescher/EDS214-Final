@@ -1,5 +1,5 @@
 ---
-title: "paper.qmd"
+title: "Lucians EDS214 Final Project"
 format: html
 output-file: index.html
 ---
@@ -15,15 +15,24 @@ invisible(source(here("R", "Init_Envi.R")))
 
 ```
 
+### Background
 
-### Background 
+![](images/clipboard-2119565473.jpeg)
 
 ### Data
- 
+
+ I began my data analysis by compiling nutrient concentration data (K, NO₃-N, Mg, Ca, and NH₄-N) from the four river sites from Puerto Rico used in Fig 3 and combined them into a single data frame spanning 1988–1994. I then cleaned, reshaped into long format, and separated by nutrient to find the rolling mean. I used our custom rolling mean function from class to find rolling means for each nutrient, before recombining the results into one longform dataset for visualization in my recreation of Figure 3.
+
 ### Methods
-  
+
+I originally started using the rollmean function from the zoo package. I thought it was a genius solution so I moved on to graphing which made me realize the function was not using time it was just using rows. It took me a long time to get our class rolling_mean function work in my data set but eventually had to move on as I was worried about time. I found a few weird ways to eliminate errors and warnings which may have been biggest learning moment of this week, just eliminating the error message does not mean the code is running correctly. 
+
+
 ### Results
+
 ```{r}
+#| echo: false
+#| message: FALSE
 fig3plot <- ggplot(data = rollmean_all, 
                    aes(x = sample_date,
                    y = value,
@@ -36,4 +45,3 @@ fig3plot <- ggplot(data = rollmean_all,
             
 fig3plot
 ```
-

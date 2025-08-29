@@ -1,16 +1,25 @@
 # EDS214 Final Project - 
 
-This repository contains the code for Lucians final project in EDS 214. This project reproduces figure 3 of this paper:
+This repository contains the code and analysis for Lucians final project in EDS 214. This project reproduces figure 3 of this paper:
 
          Schaefer DouglasA, McDowell WH, Scatena FN, Asbury CE. Effects of hurricane disturbance on stream water concentrations and fluxes in eight tropical forest watersheds of the Luquillo Experimental Forest, Puerto Rico. Journal of Tropical Ecology. 2000;16(2):189-207. 
 <doi:10.1017/S0266467400001358>
          
 
 ## Contents
-
-* data: Contains raw untouched data
-* scratch: Spaghetti files of trial and error before working product
-* docs: Scripts and cleaned data files used for final Rmd
-* figs: Plots and Figure 3
-
-1) data, (2) analysis script, (3) supporting code, and (4) outputs
+1. R: 
+- Environment Initialization (init_envir.r) 
+- Rolling Mean function (rolling_mean.R)
+2. Data: 
+- raw untouched data (raw_data)
+- intermediate data (rollmean_all.csv)
+3. scratch: 
+-  Spageti code (spageti.R)
+- self assessments (peer-assessment.md)
+- peer assessment (self-assessment.md)
+4. docs: 
+- Script for Github pages (index.html)
+5. figs:
+- Output of final figure for easy access (fig_3copy)
+6. paper
+- Analysis script (paper.qmd)

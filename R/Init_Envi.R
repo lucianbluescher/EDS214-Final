@@ -12,19 +12,19 @@ required_packages <- c("here", "janitor", "tidyverse", "lubridate", "ggplot2", "
 pacman::p_load(char = required_packages)
 
 # Get data into R using Here::Here function pulling only Fig3 data
-BQ1 <- read.csv(here("raw_data", "QuebradaCuenca1-Bisley.csv")) |> 
+BQ1 <- read.csv(here("data", "raw_data", "QuebradaCuenca1-Bisley.csv")) |> 
   clean_names() |> 
   select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
 
-BQ2 <- read.csv(here("raw_data", "QuebradaCuenca2-Bisley.csv")) |> 
+BQ2 <- read.csv(here("data", "raw_data", "QuebradaCuenca2-Bisley.csv")) |> 
   clean_names() |> 
   select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
 
-BQ3 <- read.csv(here("raw_data", "QuebradaCuenca3-Bisley.csv")) |> 
+BQ3 <- read.csv(here("data", "raw_data", "QuebradaCuenca3-Bisley.csv")) |> 
   clean_names() |> 
   select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
 
-PRM <- read.csv(here("raw_data", "RioMameyesPuenteRoto.csv")) |> 
+PRM <- read.csv(here("data", "raw_data", "RioMameyesPuenteRoto.csv")) |> 
   clean_names() |> 
   select("sample_id", "sample_date", "k", "no3_n", "mg", "ca", "nh4_n")
 
@@ -45,6 +45,7 @@ fig3data <- fig3data |> pivot_longer(cols = c(k, no3_n, mg, ca, nh4_n),
                                      names_to = "nutrient",
                                      values_to = "value") 
 
+write.csv(fig3data, "data/fig3data.csv")
 # Make new data frames that is just the nutrient, sample_date and sample_id
 k <- fig3data |> 
   filter(nutrient == "k") |> 
@@ -178,3 +179,5 @@ rollmean_all <- rollmean_k |>
   pivot_longer(cols = c(k_rollmean, no3_n_rollmean, mg_rollmean, ca_rollmean, nh4_n_rollmean),
                names_to = "nutrient",
                values_to = "value") 
+
+write.csv(rollmean_all, "data/rollmean_all.csv") # Save intermediate data fram to data folder
