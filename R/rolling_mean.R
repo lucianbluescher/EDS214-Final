@@ -12,7 +12,7 @@
 #' Size of window to find mean over
 #'
 #' @returns
-#' result in form of new column with means
+#' Result in form of new column with means
 #' @export
 #'
 #' @examples
