@@ -1,5 +1,21 @@
 # Write function for finding rolling means
 
+#' Rolling mean function
+#'
+#' @param focal_date 
+#' Date to focus function on
+#' @param dates 
+#' Dates column your running the function over
+#' @param conc 
+#' Concentration or quantities your finding the mean of
+#' @param win_size_wks 
+#' Size of window to find mean over
+#'
+#' @returns
+#' result in form of new column with means
+#' @export
+#'
+#' @examples
 moving_average <- function(focal_date, dates, conc, win_size_wks) {
   # Which dates are in the window?
   is_in_window <- (dates > focal_date - (win_size_wks / 2) * 7) &

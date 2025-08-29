@@ -6,7 +6,7 @@ if (!requireNamespace("pacman", quietly = TRUE)) {
 }
 
 # List of required packages
-required_packages <- c("here", "janitor", "tidyverse", "lubridate", "ggplot2", "zoo", "dplyr") 
+required_packages <- c("here", "janitor", "tidyverse", "lubridate", "ggplot2", "zoo", "dplyr", "roxygen2") 
 
 # Library packages using pacman + install them if missing
 pacman::p_load(char = required_packages)
@@ -71,6 +71,9 @@ nh4_n <- fig3data |>
   filter(nutrient == "nh4_n")|> 
   select(-nutrient) |>
   mutate(sample_date = as.Date(sample_date))
+
+# Source rolling mean function
+source(here("R", "rolling_mean.R"))
 
 # Apply the function for k
 
