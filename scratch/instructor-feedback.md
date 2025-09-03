@@ -27,15 +27,17 @@ DOCUMENT Issue: [Link Text](https://github.com/lucianbluescher/EDS214-Final/issu
 
 [M] **The analysis produces the expected output**
 
-[NY] **Data import/cleaning is handled in its own script(s)**
+[M] **Data import/cleaning is handled in its own script(s)**
 - Fixed by splitting my 0_init_envi.R folder into 0_init_envi.R that initializes script by librarying packages and 1_data_download that cleans the needed data
+- 1_data_download imports and cleans the data. I recommend renaming it to a title more reflective of the script's purpose (it's not downloading anything).
 
 ## Organize
 
 [M] Raw data is contained in its own folder
 
 [NY] Intermediate outputs are created and saved to a separate folder from raw data
-- DONE Store in  `outputs` 
+- DONE Store in  `outputs`
+- 1_download_data.R line 146 saves the intermediate output, but it's commented out so it doesn't do anything.
 
 [M] **At least one piece of functionality has been refactored into a function in its own file**
 
@@ -43,22 +45,28 @@ DOCUMENT Issue: [Link Text](https://github.com/lucianbluescher/EDS214-Final/issu
 
 [M] The repo has a README that explains where to find (1) data, (2) analysis script, (3) supporting code, and (4) outputs
 
-[NY] **The README includes a flowchart and text explaining how the analysis works**
+[M] **The README includes a flowchart and text explaining how the analysis works**
 Added flowchart to README
 Added Short explanation of how analysis works
 
+- Looks great!
+
 [M] **The code is appropriately commented**
 
-[NY] **Variable and function names are descriptive and follow a consistent naming convention**
+[M] **Variable and function names are descriptive and follow a consistent naming convention**
 - Inconsitent capitalization and case: `fig3data` vs. `required_packages` vs. `BQ3`
 FIXED
+
+- Much more professional now
 
 ## Scale
 
 After cloning the repo on Workbench:
 
-[NY] Running the environment initialization script installs all required packages
+[M] Running the environment initialization script installs all required packages
 Fixed by isolating environment initialization script and labeling as 0
+
+- Looks good!
 
 [M] The analysis script runs without errors
 
